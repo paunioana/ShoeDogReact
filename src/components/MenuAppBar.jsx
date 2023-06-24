@@ -7,15 +7,17 @@ import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
 import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
-import Menu from '@mui/material/Menu';
 import {useNavigate} from "react-router-dom";
 import {Button, Popper} from "@mui/material";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import MenuList from "@mui/material/MenuList";
-import {useRef, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 import shoeDog from '../resources/ShoeDog2.png';
+import store from "../store";
+import {removeUserDetails} from "../actions/action";
+import {useDispatch} from "react-redux";
 
 
 export default function MenuAppBar() {
@@ -28,6 +30,24 @@ export default function MenuAppBar() {
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
     const anchorProfileRef = useRef(null);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if(store.getState().user.role !== '') {
+            let aux = store.getState().user.role;
+            if (aux === "ADMIN") {
+                setAuth(true);
+            }
+        }
+
+        console.log(auth);
+    }, [dispatch, auth, store.getState().user]);
+
+    const handleLogout = () => {
+        localStorage.clear();
+        setAuth(false);
+        dispatch(removeUserDetails());
+    };
 
     const handleMenu = (event) => {
         setAnchorEl(event.currentTarget);
@@ -116,11 +136,11 @@ export default function MenuAppBar() {
                         <img src={shoeDog}/>
                     </Typography>
                     <div>
-                        {localStorage.getItem("token")=== undefined && <div>
+                        {auth === false && <div>
                             <Button color="inherit" variant="outlined" onClick={() => navigate("/login")}>Login</Button>
                         </div>}
                     </div>
-                    {localStorage.getItem("token")!== undefined && (
+                    {auth && (
                         <div>
                             <IconButton
                                 size="large"
@@ -160,7 +180,7 @@ export default function MenuAppBar() {
                                                     <MenuItem onClick={()=>navigate("/profile")}>Profile</MenuItem>
                                                     <MenuItem onClick={handleCloseProfile}>My Reviews</MenuItem>
                                                     <MenuItem onClick={()=>navigate("/addReview")}>Add Review</MenuItem>
-                                                    <MenuItem onClick={() => navigate("/login")}>Logout</MenuItem>
+                                                    <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>
                                         </Paper>

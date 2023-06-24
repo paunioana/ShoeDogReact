@@ -9,7 +9,7 @@ import Rating from '@mui/material/Rating';
 import Typography from '@mui/material/Typography';
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from '@mui/icons-material/Close';
-
+import {addReview} from "../api-calls/ShoeDogApi";
 
 
 const AddReviewComponent = () => {
@@ -33,21 +33,6 @@ const AddReviewComponent = () => {
         });
 
     }, []);
-
-    const addReview = () => {
-        addReview().then( (response) => {
-            let aux = JSON.parse(response.request.response);
-            // document.cookie = "token=" + aux.token;
-            //     console.log(document.cookie);
-
-        })
-
-            .catch( (error) => {
-                console.log(error);
-                setResp("Failed to add Review...");
-
-            });
-    };
 
     const handleSelectBrandChange = (e) => {
         let id = e.target.value;
@@ -73,17 +58,29 @@ const AddReviewComponent = () => {
                     if (values.review_content.length < 20) {
                         setErrors_review_content("Add a proper review, please...");
                         setOpen(true);
-                    }
+                    } else {
+                    console.log(values);
                     setTimeout(() => {
                         values.rating = rating;
                         values.product = product;
                         values.brand = brand;
                         setSubmitting(false);
 
-                        alert(JSON.stringify(values, null, 2));
+                        addReview(values, "paun.ioana91@yahoo.com").then( (response) => {
+                            console.log(response);
+
+                        })
+
+                            .catch( (error) => {
+                                console.log(error);
+                                setResp("Failed to add Review...");
+
+                            });
+
 
                     }, 400);
-                }}
+                }
+            }}
             >
                 {({
                       values,

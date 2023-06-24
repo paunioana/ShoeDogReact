@@ -1,20 +1,18 @@
-export const GET_USER_REVIEWS = "GET_USER_REVIEWS";
-export const GET_TOKEN = "GET_TOKEN";
 
-export const getUserReviews = (token) => {
+export const ADD_USER_DETAILS = "ADD_USER_DETAILS";
+export const REMOVE_USER_DETAILS = "REMOVE_USER_DETAILS";
+
+export const addUserDetails = (token, expiryDate, role, email) => {
     return {
-        type: GET_USER_REVIEWS,
+        type: ADD_USER_DETAILS,
         payload: {
-            token: token
+            token: token, expiryDate: expiryDate, role: role, email: email
         }
     };
 };
 
-export const getToken = (email, password) => {
+export const removeUserDetails = () => {
     return {
-        type: GET_TOKEN,
-        payload: {
-            email: email, password: password
-        }
+        type: REMOVE_USER_DETAILS
     };
 };

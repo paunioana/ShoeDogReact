@@ -13,12 +13,12 @@ const LoginComponent = () => {
     const loginUser = () => {
         login(email, password).then( (response) => {
             let aux = JSON.parse(response.request.response);
-            // document.cookie = "token=" + aux.token;
-            //     console.log(document.cookie);
-            localStorage.setItem("email", email);
+            localStorage.setItem("role", aux.role);
             localStorage.setItem("token", aux.token);
+            localStorage.setItem("email", aux.email);
+            let jwtPayload = JSON.parse(window.atob(aux.token.split('.')[1]))
+            localStorage.setItem("expiryDate",jwtPayload.exp);
             navigate("/profile");
-
         })
 
             .catch( (error) => {

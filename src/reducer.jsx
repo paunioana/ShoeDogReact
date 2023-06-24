@@ -1,21 +1,33 @@
-import {GET_TOKEN, GET_USER_REVIEWS} from "./actions/action";
+import {ADD_USER_DETAILS, REMOVE_USER_DETAILS} from "./actions/action";
 
 const initialState = {
-    userReviews: [],
-    token: undefined
+    token: {},
+    user: {}
 };
 
 const rootReducer = (state = initialState, action) => {
     switch (action.type) {
-        case GET_USER_REVIEWS:
+        case ADD_USER_DETAILS:
             return {
-                userReviews: action.payload.userReviews,
-                token: state.token
+                token: {
+                    value: action.payload.token,
+                    expiryDate: action.payload.expiryDate
+                },
+                user: {
+                    email: action.payload.email,
+                    role: action.payload.role
+                }
             };
-        case GET_TOKEN:
+        case REMOVE_USER_DETAILS:
             return {
-                userReviews: state.userReviews,
-                token: action.payload.token
+                token: {
+                    value: "",
+                    expiryDate: ""
+                },
+                user: {
+                    email: "",
+                    role: ""
+                }
             };
 
         default:
