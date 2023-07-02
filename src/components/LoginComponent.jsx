@@ -2,6 +2,8 @@ import {Box, Button, TextField} from "@mui/material";
 import {useState} from "react";
 import {useNavigate} from "react-router-dom";
 import {login} from "../api-calls/ShoeDogApi";
+import {addUserDetails} from "../actions/action";
+import {useDispatch} from "react-redux";
 
 
 const LoginComponent = () => {
@@ -9,6 +11,7 @@ const LoginComponent = () => {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const loginUser = () => {
         login(email, password).then( (response) => {
@@ -18,7 +21,9 @@ const LoginComponent = () => {
             localStorage.setItem("email", aux.email);
             let jwtPayload = JSON.parse(window.atob(aux.token.split('.')[1]))
             localStorage.setItem("expiryDate",jwtPayload.exp);
+
             navigate("/profile");
+            dispatch(addUserDetails(aux.token, jwtPayload.exp, aux.role, aux.email));
         })
 
             .catch( (error) => {

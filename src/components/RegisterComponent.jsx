@@ -7,6 +7,8 @@ const RegisterComponent = () => {
     const [resp, setResp] = useState(undefined);
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [firstName, setFirstName] = useState("");
+    const [lastName, setLastName] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
     const [emailError, setEmailError] = useState("");
     const [passwordError, setPasswordError] = useState("");
@@ -14,7 +16,7 @@ const RegisterComponent = () => {
     const navigation = useNavigate();
 
     const registerUser = () => {
-        register(email, password).then( (response) => {
+        register(email, password, firstName, lastName).then( (response) => {
             setResp(response.data);
             setTimeout(() =>
                 navigation("/login"), 2000);
@@ -99,6 +101,24 @@ const RegisterComponent = () => {
                 <div>
                     <TextField
                         required
+                        id="firstname-required"
+                        label="first name"
+                        type="name"
+                        onChange={(e) => setFirstName(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        required
+                        id="lastname-required"
+                        label="last name"
+                        type="name"
+                        onChange={(e) => setLastName(e.target.value)}
+                    />
+                </div>
+                <div>
+                    <TextField
+                        required
                         id="outlined-required"
                         label="email"
                         type="email"
@@ -129,7 +149,7 @@ const RegisterComponent = () => {
             </Box>
 
             <div>
-                {emailError === "" && passwordError === "" && confirmPasswordError === "" && <Button variant="contained" type="button" onClick={registerUser}>Register</Button>}
+                {emailError === "" && passwordError === "" && confirmPasswordError === "" && firstName !== "" && lastName !== "" && password !== "" && confirmPassword !== "" && <Button variant="contained" type="button" onClick={registerUser}>Register</Button>}
             </div>
             {resp !== undefined && <div>{resp}</div>}
         </div>

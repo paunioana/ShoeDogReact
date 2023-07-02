@@ -11,7 +11,6 @@ import AddReviewComponent from "./components/AddReviewComponent";
 import { ThemeProvider } from '@mui/material/styles';
 import theme from './theme';
 import {useEffect} from "react";
-import {getBrands} from "./api-calls/ShoeDogApi";
 import {useDispatch} from "react-redux";
 import {addUserDetails} from "./actions/action";
 function App() {
@@ -29,8 +28,6 @@ function App() {
     <div className="App">
 
           <MenuAppBar/>
-
-   <div>
           <Routes>
               <Route path="/register" element={<RegisterComponent />}/>
               <Route path="/login"  element={<LoginComponent />}/>
@@ -38,10 +35,14 @@ function App() {
               <Route path="/profile"  element={<UserComponent />}/>
               <Route path="/addReview"  element={<AddReviewComponent />}/>
           </Routes>
-   </div>
 
 
     </div>
+          <footer>
+              <p>
+                  &copy; 2023, Just an Unfinished Business
+              </p>
+          </footer>
       </ThemeProvider>
   );
 }

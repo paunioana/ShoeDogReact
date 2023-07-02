@@ -36,7 +36,7 @@ const theme = createTheme({
                         backgroundColor: '#3f51b5',
                         color: '#ffffff',
                         textTransform: 'none',
-                        marginTop: '20px'
+                        margin: '20px'
                     },
                 },
                 {
@@ -45,7 +45,7 @@ const theme = createTheme({
                         backgroundColor: '#f50057',
                         color: '#ffffff',
                         textTransform: 'none',
-                        marginTop: '20px'
+                        margin: '20px'
                     },
                 },
             ],

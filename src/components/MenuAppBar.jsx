@@ -5,19 +5,17 @@ import Toolbar from '@mui/material/Toolbar';
 import Typography from '@mui/material/Typography';
 import IconButton from '@mui/material/IconButton';
 import MenuIcon from '@mui/icons-material/Menu';
-import AccountCircle from '@mui/icons-material/AccountCircle';
 import MenuItem from '@mui/material/MenuItem';
 import {useNavigate} from "react-router-dom";
-import {Button, Popper} from "@mui/material";
+import {Avatar, Button, Popper} from "@mui/material";
 import Grow from "@mui/material/Grow";
 import Paper from "@mui/material/Paper";
 import ClickAwayListener from "@mui/material/ClickAwayListener";
 import MenuList from "@mui/material/MenuList";
 import {useEffect, useRef, useState} from "react";
 import shoeDog from '../resources/ShoeDog2.png';
-import store from "../store";
 import {removeUserDetails} from "../actions/action";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 
 export default function MenuAppBar() {
@@ -25,23 +23,34 @@ export default function MenuAppBar() {
     const [anchorEl, setAnchorEl] = useState(null);
     const [anchorElProfile, setAnchorElProfile] = useState(null);
     const [openProfileMenu, setOpenProfileMenu] = useState(false);
+    const user = useSelector(state => state.user);
 
     const navigate = useNavigate();
     const [open, setOpen] = useState(false);
     const anchorRef = useRef(null);
     const anchorProfileRef = useRef(null);
+    const token = useSelector(state => state.token);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if(store.getState().user.role !== '') {
-            let aux = store.getState().user.role;
-            if (aux === "ADMIN") {
-                setAuth(true);
-            }
+        if(token && token !== '') {
+            console.log("--->",new Date()/1000);
+            console.log("--->",token.expiryDate);
+            let notExpired = true; //token.expiryDate > new Date()/1000;
+            if(notExpired) {
+                    let aux = user.role;
+                    if (aux === "ADMIN" || aux === "USER") {
+                        setAuth(true);
+                    }
+            } else {
+                console.log("token expired!");
+                localStorage.clear();
+                setAuth(false);
+                //dispatch(removeUserDetails());
+                navigate("/login");}
         }
 
-        console.log(auth);
-    }, [dispatch, auth, store.getState().user]);
+    }, [user]);
 
     const handleLogout = () => {
         localStorage.clear();
@@ -133,7 +142,7 @@ export default function MenuAppBar() {
                     </div>
 
                     <Typography variant="img" component="div" sx={{ flexGrow: 1 }}>
-                        <img src={shoeDog}/>
+                        <img src={shoeDog} alt="profile-pic"/>
                     </Typography>
                     <div>
                         {auth === false && <div>
@@ -151,7 +160,7 @@ export default function MenuAppBar() {
                                 onClick={(event) => handleMenuProfile(event)}
                                 color="inherit"
                             >
-                                <AccountCircle   />
+                                <Avatar alt="avatar"  />
                             </IconButton>
                             <Popper
                                 open={openProfileMenu}
