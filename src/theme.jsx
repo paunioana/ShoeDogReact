@@ -58,6 +58,32 @@ const theme = createTheme({
                 },
             },
         },
+        MuiTable: {
+            styleOverrides: {
+                root: {
+                    width: '100%',
+                    borderCollapse: 'collapse',
+                },
+            },
+        },
+        MuiTableHead: {
+            styleOverrides: {
+                root: {
+                    backgroundColor: '#f5f5f5',
+                },
+            },
+        },
+        MuiTableCell: {
+            styleOverrides: {
+                root: {
+                    borderBottom: '1px solid #e0e0e0',
+                    padding: '12px',
+                },
+                head: {
+                    fontWeight: 'bold',
+                },
+            },
+        },
     },
 });
 

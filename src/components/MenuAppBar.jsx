@@ -34,8 +34,8 @@ export default function MenuAppBar() {
 
     useEffect(() => {
         if(token && token !== '') {
-            console.log("--->",new Date()/1000);
-            console.log("--->",token.expiryDate);
+            // console.log("--->",new Date()/1000);
+            // console.log("--->",token.expiryDate);
             let notExpired = true; //token.expiryDate > new Date()/1000;
             if(notExpired) {
                     let aux = user.role;
@@ -43,7 +43,7 @@ export default function MenuAppBar() {
                         setAuth(true);
                     }
             } else {
-                console.log("token expired!");
+                // console.log("token expired!");
                 localStorage.clear();
                 setAuth(false);
                 //dispatch(removeUserDetails());
@@ -132,7 +132,7 @@ export default function MenuAppBar() {
                                                 onKeyDown={handleListKeyDown}
                                             >
                                                 <MenuItem onClick={() => navigate("/about")}>About</MenuItem>
-                                                <MenuItem >Find reviews</MenuItem>
+                                                <MenuItem onClick={() => navigate("/reviews")}>Find reviews</MenuItem>
                                             </MenuList>
                                         </ClickAwayListener>
                                     </Paper>

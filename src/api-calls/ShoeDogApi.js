@@ -18,6 +18,15 @@ export const register = (email, password, firstName, lastName) => axios.post(`${
     "lastName": lastName
 });
 
+export const updateUser = (email, firstName, lastName, about, token) => axios.post(`${BASE_API}user/update`, {
+    "email": email,
+    "firstName": firstName,
+    "lastName": lastName,
+    "about": about
+},
+    { headers: {
+        "Authorization": token}});
+
 export const addReview = (review, email, token) => axios.post(`${BASE_API}review/addReview`, JSON.stringify(review),
     { headers: { "Content-Type": "application/json; charset=UTF-8",
         "Authorization": token},
@@ -30,4 +39,7 @@ export const getProducts = (id, token) => axios.get(`${BASE_API}review/products`
     "Authorization": token}});
 
 export const getUserDetails = (email, token) => axios.get(`${BASE_API}user/details`, {params: { email: email }, headers: {
+        "Authorization": token}});
+
+export const getReviews = (token) => axios.get(`${BASE_API}review/all`, { headers: {
         "Authorization": token}});

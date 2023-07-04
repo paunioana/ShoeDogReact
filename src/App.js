@@ -13,6 +13,8 @@ import theme from './theme';
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {addUserDetails} from "./actions/action";
+import ReviewsComponent from "./components/ReviewsComponent";
+
 function App() {
     const dispatch = useDispatch();
     useEffect(() => {
@@ -34,6 +36,7 @@ function App() {
               <Route path="/about"  element={<AboutComponent />}/>
               <Route path="/profile"  element={<UserComponent />}/>
               <Route path="/addReview"  element={<AddReviewComponent />}/>
+              <Route path="/reviews" element={<ReviewsComponent />}/>
           </Routes>
 
 
