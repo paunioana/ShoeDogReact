@@ -64,6 +64,11 @@ if(fn!=="" && ln!=="" && about!==""){
         })
 }
 }
+
+const cancel = () =>{
+    setEdit(false);
+    setProfileButton(false);
+}
     return (
         <div className="container">
             <div>
@@ -147,6 +152,7 @@ if(fn!=="" && ln!=="" && about!==""){
                 />
             <div id="submit-details">
                 <Button variant="contained" color="primary" type="submit" onClick={() => submitDetails()}>Submit</Button>
+                <Button variant="outlined" color="primary" onClick={() => cancel()}>Cancel</Button>
             </div>
             </Box>
             </div>) }

@@ -3,7 +3,7 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#3f51b5',
+            main: '#00ADB2',
         },
         secondary: {
             main: '#f50057',
@@ -33,8 +33,17 @@ const theme = createTheme({
                 {
                     props: { variant: 'contained', color: 'primary' },
                     style: {
-                        backgroundColor: '#3f51b5',
+                        backgroundColor: '#00ADB2',
                         color: '#ffffff',
+                        textTransform: 'none',
+                        margin: '20px'
+                    },
+                },
+                {
+                    props: { variant: 'outlined', color: 'primary' },
+                    style: {
+                        backgroundColor: '#ffffff',
+                        color: '#00ADB2',
                         textTransform: 'none',
                         margin: '20px'
                     },
@@ -85,6 +94,7 @@ const theme = createTheme({
             },
         },
     },
+
 });
 
 export default theme;

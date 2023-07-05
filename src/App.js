@@ -13,7 +13,8 @@ import theme from './theme';
 import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {addUserDetails} from "./actions/action";
-import ReviewsComponent from "./components/ReviewsComponent";
+import PostsComponent from "./components/PostsComponent";
+
 
 function App() {
     const dispatch = useDispatch();
@@ -30,13 +31,14 @@ function App() {
     <div className="App">
 
           <MenuAppBar/>
+
           <Routes>
               <Route path="/register" element={<RegisterComponent />}/>
               <Route path="/login"  element={<LoginComponent />}/>
               <Route path="/about"  element={<AboutComponent />}/>
               <Route path="/profile"  element={<UserComponent />}/>
               <Route path="/addReview"  element={<AddReviewComponent />}/>
-              <Route path="/reviews" element={<ReviewsComponent />}/>
+              <Route path="/reviews" element={<PostsComponent />}/>
           </Routes>
 
 
