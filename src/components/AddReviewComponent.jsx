@@ -24,11 +24,12 @@ const AddReviewComponent = () => {
     const [errors_review_content, setErrors_review_content] = useState(undefined);
     const token = useSelector(state => state.token);
     const user = useSelector(state => state.user);
+    const isUser = useSelector(state => (state.user.role ==="ADMIN" || state.user.role === "USER"));
     const navigate = useNavigate();
 
 
     useEffect(() => {
-        if(user.role && user.role !== "") {
+        if(isUser) {
             getBrands(token.value).then((response) => {
                     setBrands(response.data);
                 }
@@ -36,10 +37,10 @@ const AddReviewComponent = () => {
                 console.log(error);
             });
         } else {
-            navigate("/login");
+            navigate("/reviews");
         }
 
-    }, []);
+    }, [user]);
 
     const handleSelectBrandChange = (e) => {
         let id = e.target.value;

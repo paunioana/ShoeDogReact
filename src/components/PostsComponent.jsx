@@ -7,23 +7,44 @@ import {getReviews} from "../api-calls/ShoeDogApi";
 import {useSelector} from "react-redux";
 import '../css/PostsComponent.css';
 import Rating from "@mui/material/Rating";
+import moment from 'moment';
+import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 const PostsComponent = () => {
     const [posts, setPosts] = useState(undefined);
     const [modalData, setModalData] = useState(undefined);
-    const user = useSelector(state => state.user);
+    const isAdmin = useSelector(state => state.user.role=== "ADMIN");
     const token = useSelector(state => state.token);
 
     const renderRatingCell = (params) => {
         const value = Number(params.value); // Assuming the rating value is provided as a number
         return <Rating name={`rating-${params.row.id}`} value={value} precision={0.5} readOnly/>;
     };
+
+    const renderDeleteIcon = (params) => {
+        if(isAdmin){
+        return (
+            <DeleteSweepOutlinedIcon style={{ cursor: 'pointer' }}
+            />
+        );}
+        else {return "";}
+
+    };
     const wrapCellContent = (content) => {
         return (
-            <div style={{ whiteSpace: 'normal', wordBreak: 'break-word', textAlign:'left' }}>
+            <div style={{ whiteSpace: 'normal', padding: "8px", wordBreak: 'break-word', textAlign:'left' }}>
                 {content}
             </div>
         );
     };
+    const handleDelete = (params) => {
+        // Handle the delete action for the corresponding row
+        const { id } = params.row;
+        // Implement your delete logic here using the row ID
+
+        // For example, you can console log the deleted row ID
+        console.log(`Deleted row with ID: ${id}`);
+    };
+
 
     const columns = [
         {field: "product", headerName: "Brand", valueGetter: (params) => {
@@ -31,24 +52,26 @@ const PostsComponent = () => {
             },headerClassName: 'super-app-theme--header', width: 200},
         {field: "product.model", headerName: "Model", valueGetter: (params) => {
                 return `${params.row.product.model}`;
-            }, width:200},
-        {field: "review_content", headerName: "Review",renderCell: (params) => wrapCellContent(params.value), width: '800'},
-        {field: "rating", headerName: "Rating", renderCell: renderRatingCell,width: 200},
-        {field: "name", headerName: "User", width: 100, valueGetter: (params) => {
+            }, width: 200 },
+        {field: "review_content", headerName: "Review",renderCell: (params) => wrapCellContent(params.value), minWidth: 400, flex: 1},
+        {field: "rating", headerName: "Rating", renderCell: renderRatingCell,width: 150},
+        {field: "name", headerName: "User", minWidth: 100, valueGetter: (params) => {
                 return `${params.row.user.firstName || ''} ${params.row.user.lastName || ''}`;
-            }},
-        {field: "date", headerName: "Date", width: 110, valueGetter: (params) => {
-                return `${params.row.user.firstName}`;
-            }}
+            }, width: 200},
+        {field: "date", headerName: "Date", minWidth: 110, valueGetter: (params) => {
+                const formattedDate = moment(params.row.publishedOn).format('DD/MM/YYYY HH:mm');
+                return formattedDate;
+            },width: 150},
+        { field: '',valueGetter: (params) => {
+                return `${params.row.id}`;}, renderCell: (params) => renderDeleteIcon(params.value), width: 50,
+          }
     ];
     useEffect(() => {
-        getReviews(token.value).then( (response) => {
-            console.log(response);
+        getReviews().then( (response) => {
             setPosts(response.data);
         })
             .catch( (error) => {
                 console.log(error);
-
             });
     }, []);
 
@@ -96,16 +119,20 @@ const PostsComponent = () => {
         [`& .${gridClasses.columnHeaderTitle}`]: {
             fontSize: 20,
             fontWeight: 900,
-            color: '#f5f5f5'
+            color: '#f5f5f5',
+            marginLeft: '10px'
         },
         [`& .${gridClasses.columnHeader}`]: {
             backgroundColor: '#00ADB2'
         },
+        [`& .${gridClasses.cellContent}`]: {
+            marginLeft: '10px'
+        }
 
     }));
 
     return (
-        <Box width="100%" height="100%" display="flex" justifyContent="center">
+        <Box style={{ height: '100%', width: '100%', paddingTop: '50px', justifyContent: 'center', display: 'flex' }}>
             {posts === undefined && <div>There are no posts yet</div>}
             {posts && (
                 <Box width="80%">

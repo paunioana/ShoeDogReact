@@ -41,5 +41,4 @@ export const getProducts = (id, token) => axios.get(`${BASE_API}review/products`
 export const getUserDetails = (email, token) => axios.get(`${BASE_API}user/details`, {params: { email: email }, headers: {
         "Authorization": token}});
 
-export const getReviews = (token) => axios.get(`${BASE_API}review/all`, { headers: {
-        "Authorization": token}});
+export const getReviews = () => axios.get(`${BASE_API}review/all`, );

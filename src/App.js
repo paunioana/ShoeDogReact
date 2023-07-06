@@ -39,6 +39,7 @@ function App() {
               <Route path="/profile"  element={<UserComponent />}/>
               <Route path="/addReview"  element={<AddReviewComponent />}/>
               <Route path="/reviews" element={<PostsComponent />}/>
+              <Route path="/" element={<PostsComponent />}/>
           </Routes>
 
 
