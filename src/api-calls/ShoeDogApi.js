@@ -32,6 +32,13 @@ export const addReview = (review, email, token) => axios.post(`${BASE_API}review
         "Authorization": token},
         params: { email: email }
     });
+
+export const deleteReview = (reviewId, token) => axios.delete(`${BASE_API}review/delete`, {
+    params: { reviewId: reviewId },
+    headers: {
+        "Authorization": token
+    }
+});
 export const getBrands = (token) => axios.get(`${BASE_API}review/brands`, { headers: {
         "Authorization": token}});
 

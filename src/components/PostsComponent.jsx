@@ -2,13 +2,13 @@ import React, {useEffect, useState} from "react";
 import { Box} from "@mui/material";
 import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import CommentsModal from "./CommentsModal";
 import {getReviews} from "../api-calls/ShoeDogApi";
 import {useSelector} from "react-redux";
 import '../css/PostsComponent.css';
 import Rating from "@mui/material/Rating";
 import moment from 'moment';
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
+import ConfirmModal from "./ConfirmModal";
 const PostsComponent = () => {
     const [posts, setPosts] = useState(undefined);
     const [modalData, setModalData] = useState(undefined);
@@ -20,12 +20,17 @@ const PostsComponent = () => {
         return <Rating name={`rating-${params.row.id}`} value={value} precision={0.5} readOnly/>;
     };
 
-    const renderDeleteIcon = (params) => {
+    const renderDeleteIcon = (id) => {
         if(isAdmin){
         return (
             <DeleteSweepOutlinedIcon style={{ cursor: 'pointer' }}
+                                     onClick={() =>setModalData({
+                                         reviewId: id,
+                                         token: token.value
+                                     })}
             />
-        );}
+        );
+        }
         else {return "";}
 
     };
@@ -35,14 +40,6 @@ const PostsComponent = () => {
                 {content}
             </div>
         );
-    };
-    const handleDelete = (params) => {
-        // Handle the delete action for the corresponding row
-        const { id } = params.row;
-        // Implement your delete logic here using the row ID
-
-        // For example, you can console log the deleted row ID
-        console.log(`Deleted row with ID: ${id}`);
     };
 
 
@@ -62,7 +59,7 @@ const PostsComponent = () => {
                 const formattedDate = moment(params.row.publishedOn).format('DD/MM/YYYY HH:mm');
                 return formattedDate;
             },width: 150},
-        { field: '',valueGetter: (params) => {
+        { field: 'id',headerName:'', valueGetter: (params) => {
                 return `${params.row.id}`;}, renderCell: (params) => renderDeleteIcon(params.value), width: 50,
           }
     ];
@@ -75,14 +72,6 @@ const PostsComponent = () => {
             });
     }, []);
 
-    const onCellClick = (cellInfo) => {
-        const postId = cellInfo.row.id;
-
-                setModalData({
-                    comments: posts
-                });
-
-    };
     const ODD_OPACITY = 0.2;
 
     const StripedDataGrid = styled(DataGrid)(({ theme }) => ({
@@ -146,10 +135,11 @@ const PostsComponent = () => {
                         '& .MuiDataGrid-cell:hover': {
                             color: 'primary.main',
                         },
-                    }} onCellClick={onCellClick} rows={posts} columns={columns}/>
-                    {modalData && <CommentsModal modalData={modalData} onClose={() => setModalData(undefined)}/>}
+                    }} rows={posts} columns={columns}/>
+
                 </Box>
             )}
+            {modalData && <ConfirmModal modalData={modalData} onClose={() => setModalData(undefined)}/>}
         </Box>
     );
 
