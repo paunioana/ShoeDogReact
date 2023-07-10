@@ -2,18 +2,21 @@ import React, {useEffect, useState} from "react";
 import { Box} from "@mui/material";
 import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
-import {getReviews} from "../api-calls/ShoeDogApi";
+import {getReviews, getUserReviews} from "../api-calls/ShoeDogApi";
 import {useSelector} from "react-redux";
 import '../css/PostsComponent.css';
 import Rating from "@mui/material/Rating";
 import moment from 'moment';
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
 import ConfirmModal from "./ConfirmModal";
+import {useLocation} from "react-router-dom";
 const PostsComponent = () => {
     const [posts, setPosts] = useState(undefined);
     const [modalData, setModalData] = useState(undefined);
     const isAdmin = useSelector(state => state.user.role=== "ADMIN");
+    const user = useSelector(state => state.user);
     const token = useSelector(state => state.token);
+    const location = useLocation();
 
     const renderRatingCell = (params) => {
         const value = Number(params.value); // Assuming the rating value is provided as a number
@@ -64,13 +67,24 @@ const PostsComponent = () => {
           }
     ];
     useEffect(() => {
-        getReviews().then( (response) => {
-            setPosts(response.data);
-        })
-            .catch( (error) => {
-                console.log(error);
-            });
-    }, []);
+        console.log(location);
+        if(location.state === null) {
+            getReviews().then((response) => {
+                setPosts(response.data);
+            })
+                .catch((error) => {
+                    console.log(error);
+                });
+        } else if(location.state.filter) {
+            getUserReviews(user.email, token.value).then((response) => {
+                setPosts(response.data);
+            })
+                .catch((error) => {
+                    console.log(error);
+                });
+
+        }
+    }, [modalData]);
 
     const ODD_OPACITY = 0.2;
 

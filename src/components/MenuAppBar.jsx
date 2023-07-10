@@ -31,6 +31,7 @@ export default function MenuAppBar() {
     const anchorProfileRef = useRef(null);
     const token = useSelector(state => state.token);
     const dispatch = useDispatch();
+    const isAdmin = useSelector(state => state.user.role === "ADMIN");
 
     useEffect(() => {
         if(token && token !== '') {
@@ -132,7 +133,7 @@ export default function MenuAppBar() {
                                                 onKeyDown={handleListKeyDown}
                                             >
                                                 <MenuItem onClick={() => navigate("/about")}>About</MenuItem>
-                                                <MenuItem onClick={() => navigate("/reviews")}>Find reviews</MenuItem>
+                                                <MenuItem onClick={() => navigate("/allReviews")}>Find reviews</MenuItem>
                                             </MenuList>
                                         </ClickAwayListener>
                                     </Paper>
@@ -187,8 +188,10 @@ export default function MenuAppBar() {
                                                     onKeyDown={handleListKeyDown}
                                                 >
                                                     <MenuItem onClick={()=>navigate("/profile")}>Profile</MenuItem>
-                                                    <MenuItem onClick={handleCloseProfile}>My Reviews</MenuItem>
+                                                    <MenuItem onClick={()=>navigate("/reviews",{state: {filter:true}})}>My Reviews</MenuItem>
                                                     <MenuItem onClick={()=>navigate("/addReview")}>Add Review</MenuItem>
+                                                    <MenuItem onClick={()=>navigate("/addProduct")}>Add Model Info</MenuItem>
+                                                    {isAdmin && <MenuItem onClick={()=>navigate("/requests")}>Model Requests</MenuItem>}
                                                     <MenuItem onClick={() => handleLogout()}>Logout</MenuItem>
                                                 </MenuList>
                                             </ClickAwayListener>

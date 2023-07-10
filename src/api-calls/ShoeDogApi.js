@@ -33,8 +33,26 @@ export const addReview = (review, email, token) => axios.post(`${BASE_API}review
         params: { email: email }
     });
 
-export const deleteReview = (reviewId, token) => axios.delete(`${BASE_API}review/delete`, {
+export const addProduct = (product, role, token) => axios.post(`${BASE_API}review/addModel`, JSON.stringify(product),
+    { headers: { "Content-Type": "application/json; charset=UTF-8",
+            "Authorization": token},
+        params: { role: role }
+    });
+export const approveProduct = (id, token) => axios.post(`${BASE_API}admin/approveProduct`, {
+    params: { id: id },
+    headers: {
+        "Authorization": token
+    }
+});
+export const deleteReview = (reviewId, token) => axios.delete(`${BASE_API}admin/deleteReview`, {
     params: { reviewId: reviewId },
+    headers: {
+        "Authorization": token
+    }
+});
+
+export const deleteProduct = (id, token) => axios.delete(`${BASE_API}admin/deleteProduct`, {
+    params: { id: id },
     headers: {
         "Authorization": token
     }
@@ -45,7 +63,13 @@ export const getBrands = (token) => axios.get(`${BASE_API}review/brands`, { head
 export const getProducts = (id, token) => axios.get(`${BASE_API}review/products`, {params: { brandId: id }, headers: {
     "Authorization": token}});
 
+export const getRequests = (token) => axios.get(`${BASE_API}admin/requests`, { headers: {
+        "Authorization": token}});
+
 export const getUserDetails = (email, token) => axios.get(`${BASE_API}user/details`, {params: { email: email }, headers: {
         "Authorization": token}});
 
 export const getReviews = () => axios.get(`${BASE_API}review/all`, );
+
+export const getUserReviews = (email, token) => axios.get(`${BASE_API}review/myReviews`, {params: { email: email }, headers: {
+        "Authorization": token}});

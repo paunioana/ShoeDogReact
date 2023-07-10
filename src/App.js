@@ -14,6 +14,9 @@ import {useEffect} from "react";
 import {useDispatch} from "react-redux";
 import {addUserDetails} from "./actions/action";
 import PostsComponent from "./components/PostsComponent";
+import AllReviewsComponent from "./components/AllReviewsComponent";
+import AddProductComponent from "./components/AddProductComponent";
+import RequestsComponent from "./components/RequestsComponent";
 
 
 function App() {
@@ -38,8 +41,11 @@ function App() {
               <Route path="/about"  element={<AboutComponent />}/>
               <Route path="/profile"  element={<UserComponent />}/>
               <Route path="/addReview"  element={<AddReviewComponent />}/>
+              <Route path="/addProduct"  element={<AddProductComponent />}/>
               <Route path="/reviews" element={<PostsComponent />}/>
-              <Route path="/" element={<PostsComponent />}/>
+              <Route path="/requests" element={<RequestsComponent />}/>
+              <Route path="/allReviews" element={<AllReviewsComponent />}/>
+              <Route path="/" element={<AllReviewsComponent />}/>
           </Routes>
 
 

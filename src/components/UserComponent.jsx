@@ -6,6 +6,7 @@ import profile from '../resources/shoeDog.png';
 import {useNavigate} from "react-router-dom";
 import {Box, Button, Fab, TextField} from "@mui/material";
 import SettingsSuggestRoundedIcon from '@mui/icons-material/SettingsSuggestRounded';
+import PostsComponent from "./PostsComponent";
 const UserComponent = () => {
     const [userDetails, setUserDetails] = useState({});
     const user = useSelector(state => state.user);
@@ -156,7 +157,6 @@ const cancel = () =>{
             </div>
             </Box>
             </div>) }
-
 
         </div>
 
