@@ -4,7 +4,6 @@ import { alpha, styled } from '@mui/material/styles';
 import { DataGrid, gridClasses } from '@mui/x-data-grid';
 import {getReviews, getUserReviews} from "../api-calls/ShoeDogApi";
 import {useSelector} from "react-redux";
-import '../css/PostsComponent.css';
 import Rating from "@mui/material/Rating";
 import moment from 'moment';
 import DeleteSweepOutlinedIcon from '@mui/icons-material/DeleteSweepOutlined';
@@ -53,12 +52,13 @@ const PostsComponent = () => {
         {field: "product.model", headerName: "Model", valueGetter: (params) => {
                 return `${params.row.product.model}`;
             }, width: 200 },
-        {field: "review_content", headerName: "Review",renderCell: (params) => wrapCellContent(params.value), minWidth: 400, flex: 1},
+        // {field: "review_content", headerName: "Review",renderCell: (params) => wrapCellContent(params.value), minWidth: 400, flex: 1},
+        {field: "review_content", headerName: "Review",renderCell: (params) => wrapCellContent(params.value), width: 500},
         {field: "rating", headerName: "Rating", renderCell: renderRatingCell,width: 150},
-        {field: "name", headerName: "User", minWidth: 100, valueGetter: (params) => {
+        {field: "name", headerName: "User", valueGetter: (params) => {
                 return `${params.row.user.firstName || ''} ${params.row.user.lastName || ''}`;
             }, width: 200},
-        {field: "date", headerName: "Date", minWidth: 110, valueGetter: (params) => {
+        {field: "date", headerName: "Date",  valueGetter: (params) => {
                 const formattedDate = moment(params.row.publishedOn).format('DD/MM/YYYY HH:mm');
                 return formattedDate;
             },width: 150},
@@ -136,15 +136,14 @@ const PostsComponent = () => {
 
     return (
         <Box style={{ height: '100%', width: '100%', paddingTop: '50px', justifyContent: 'center', display: 'flex' }}>
-            {posts === undefined && <div>There are no posts yet</div>}
             {posts && (
-                <Box width="80%">
+                <Box width="1450px" sx={{overflowX: 'auto'}}>
                     <StripedDataGrid
                         getRowClassName={(params) =>
                             params.indexRelativeToCurrentPage % 2 === 0 ? 'even' : 'odd'
                         }  sx={{
                         boxShadow: 2,
-                        border: 2,
+                        border: 0,
                         borderColor: 'primary.light',
                         '& .MuiDataGrid-cell:hover': {
                             color: 'primary.main',

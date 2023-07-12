@@ -94,6 +94,7 @@ const RegisterComponent = () => {
                 component="form"
                 sx={{
                     '& .MuiTextField-root': { m: 1, width: '25ch' },
+                    marginTop: '30px'
                 }}
                 noValidate
                 autoComplete="off"

@@ -75,7 +75,7 @@ const AddReviewComponent = () => {
                         setSubmitting(false);
 
                         addReview(values, user.email, token.value).then( (response) => {
-                            console.log(response);
+                            navigate("/reviews",{state: {filter:true}});
 
                         })
 

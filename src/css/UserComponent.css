@@ -42,6 +42,7 @@
 .container {
     display: flex;
     align-items: start;
+    justify-content: center;
 }
 
 .profile-card {
@@ -66,4 +67,11 @@
 #profile-reviews{
     margin-top: 110px;
 
+}
+
+#upload-image {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+    fontFamily: '"Roboto", sans-serif';
 }

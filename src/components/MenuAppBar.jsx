@@ -34,22 +34,26 @@ export default function MenuAppBar() {
     const isAdmin = useSelector(state => state.user.role === "ADMIN");
 
     useEffect(() => {
-        if(token && token !== '') {
-            // console.log("--->",new Date()/1000);
-            // console.log("--->",token.expiryDate);
-            let notExpired = true; //token.expiryDate > new Date()/1000;
-            if(notExpired) {
-                    let aux = user.role;
-                    if (aux === "ADMIN" || aux === "USER") {
-                        setAuth(true);
-                    }
+        const now = new Date().getTime();
+        if(token.value != null) {
+            const expiryTime = new Date(token.expiryDate).getTime();
+            if (now/1000 < expiryTime) {
+
+                let aux = user.role;
+                if (aux === "ADMIN" || aux === "USER") {
+                    setAuth(true);
+                }
             } else {
-                // console.log("token expired!");
+                console.log("token expired!");
                 localStorage.clear();
                 setAuth(false);
                 //dispatch(removeUserDetails());
-                navigate("/login");}
+                navigate("/login");
+            }
+        } else {
+            navigate("/login");
         }
+
 
     }, [user]);
 

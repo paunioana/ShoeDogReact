@@ -38,7 +38,7 @@ const ConfirmModal = (props) => {
             >
                 <div>Are you sure you want to delete this review?</div>
                 <div>
-                    <Button variant="contained" color="primary" type="submit" onClick={() => confirmDeletion()}>Submit</Button>
+                    <Button variant="contained" color="primary" type="submit" onClick={() => confirmDeletion()}>Delete</Button>
                     <Button variant="outlined" color="primary" onClick={() => cancel()}>Cancel</Button>
                 </div>
             </Box>
